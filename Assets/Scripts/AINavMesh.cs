@@ -9,23 +9,40 @@ public class AINavMesh : MonoBehaviour
     [SerializeField] private GameObject target;
     private NavMeshAgent agent;
 
+    private GameObject[] players;
     PhotonView view;
+    public LayerMask whatIsPlayer;
+    bool isEnemyInSight;
+    public float sightRange = 5f;
+
+    RaycastHit hit;
     void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
+        players = GameObject.FindGameObjectsWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         view = GetComponent<PhotonView>();
+        target = players[0];
     }
 
     void Update()
     {
+        
+
+
         if (view.IsMine)
         {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                agent.destination = target.transform.position;
-            }
+            agent.destination = target.transform.position;
         }
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+            target = other.gameObject;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        target = gameObject;
     }
 }
