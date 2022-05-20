@@ -11,7 +11,7 @@ public class AIBehavior1 : MonoBehaviour
 
     //Patroling
     public Vector3 walkPoint;
-    bool walkPointset;
+    bool walkPointSet = false;
     public float walkPointRange;
 
     //Attacking
@@ -45,19 +45,32 @@ public class AIBehavior1 : MonoBehaviour
     private void SetWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomx = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+            walkPointSet = true;
     }
 
     private void Patrolling()
     {
+        if (!walkPointSet) SetWalkPoint();
 
+        if (walkPointSet)
+            agent.SetDestination(walkPoint);
+        
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        if (distanceToWalkPoint.magnitude < 1f)
+            walkPointSet = false;
     }
     private void Chase()
     {
-
+        agent.SetDestination(target.position);
     }
     private void Attack()
     {
-
+        
     }
 }
