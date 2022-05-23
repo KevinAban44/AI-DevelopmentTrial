@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 public class AIBehavior1 : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public Transform target;
+    [SerializeField] public Transform target;
     public LayerMask whatIsGround, whatIsPlayer;
+    public GameObject[] targets;
+    
 
     //Patroling
     public Vector3 walkPoint;
@@ -15,24 +18,31 @@ public class AIBehavior1 : MonoBehaviour
     public float walkPointRange;
 
     //Attacking
-    public float attackCooldown;
-    bool hasAttacked;
+    public float attackCooldown = 10f;
+    bool canAttack = true;
+    public GameObject bulletPrefab;
+    public GameObject bulletStartPoint;
+    public float bulletSpeed = 10f;
+    
 
     //States
     public float sightRange, attackRange;
     bool isEnemyInSight, isEnemyInRange;
+    public int nearestPlayerIndex;
+    public float rotationSpeed = 40f;
 
-
+    
 
     // Start is called before the first frame update
     void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        targets = GameObject.FindGameObjectsWithTag("Player");
+        target = targets[0].transform;
         agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         isEnemyInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         isEnemyInRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -67,10 +77,51 @@ public class AIBehavior1 : MonoBehaviour
     }
     private void Chase()
     {
+        nearestPlayerIndex = 0;
+
+        for(int i = 0; i < targets.Length; i++)
+        {
+            if(Vector3.Distance(targets[nearestPlayerIndex].transform.position, transform.position) 
+              > Vector3.Distance(targets[i].transform.position, transform.position))
+            {
+                nearestPlayerIndex = i;
+            }
+        }
+        target = targets[nearestPlayerIndex].transform;
         agent.SetDestination(target.position);
     }
     private void Attack()
     {
+        agent.SetDestination(transform.position);
+
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
         
+        if (canAttack)
+        {
+            canAttack = false;
+            Shoot();
+            StartCoroutine(resetAttack());
+        }
+    
+    
     }
+
+    IEnumerator resetAttack()
+    {
+        yield return new WaitForSeconds(1f);
+        canAttack = true;
+    }
+
+    private void Shoot()
+    {
+        GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, bulletStartPoint.transform.position, Quaternion.identity);
+        Debug.Log("BulletSpawned");
+        bullet.GetComponent<BulletScript>().setParent(gameObject);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+        rb.AddForce(bulletStartPoint.transform.forward * bulletSpeed, ForceMode.Impulse);
+    }
+     
 }

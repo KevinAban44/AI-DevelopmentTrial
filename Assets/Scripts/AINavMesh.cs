@@ -15,7 +15,7 @@ public class AINavMesh : MonoBehaviour
     bool isEnemyInSight;
     public float sightRange = 5f;
 
-    RaycastHit hit;
+   
     void Awake()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -26,9 +26,6 @@ public class AINavMesh : MonoBehaviour
 
     void Update()
     {
-        
-
-
         if (view.IsMine)
         {
             agent.destination = target.transform.position;
