@@ -10,6 +10,7 @@ public class AIBehavior1 : MonoBehaviour
     [SerializeField] public Transform target;
     public LayerMask whatIsGround, whatIsPlayer;
     public GameObject[] targets;
+    private PhotonView photonView;
     
 
     //Patroling
@@ -39,11 +40,24 @@ public class AIBehavior1 : MonoBehaviour
         targets = GameObject.FindGameObjectsWithTag("Player");
         target = targets[0].transform;
         agent = GetComponent<NavMeshAgent>();
+        photonView = GetComponent<PhotonView>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        nearestPlayerIndex = 0;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (Vector3.Distance(targets[nearestPlayerIndex].transform.position, transform.position)
+              > Vector3.Distance(targets[i].transform.position, transform.position))
+            {
+                nearestPlayerIndex = i;
+            }
+        }
+
         isEnemyInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         isEnemyInRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
@@ -77,16 +91,6 @@ public class AIBehavior1 : MonoBehaviour
     }
     private void Chase()
     {
-        nearestPlayerIndex = 0;
-
-        for(int i = 0; i < targets.Length; i++)
-        {
-            if(Vector3.Distance(targets[nearestPlayerIndex].transform.position, transform.position) 
-              > Vector3.Distance(targets[i].transform.position, transform.position))
-            {
-                nearestPlayerIndex = i;
-            }
-        }
         target = targets[nearestPlayerIndex].transform;
         agent.SetDestination(target.position);
     }
@@ -116,6 +120,8 @@ public class AIBehavior1 : MonoBehaviour
 
     private void Shoot()
     {
+        if (!photonView.IsMine)
+            return;
         GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, bulletStartPoint.transform.position, Quaternion.identity);
         Debug.Log("BulletSpawned");
         bullet.GetComponent<BulletScript>().setParent(gameObject);
