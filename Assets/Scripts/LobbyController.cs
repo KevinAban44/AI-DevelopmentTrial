@@ -54,7 +54,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         Debug.Log("Someone joined the room!");
         Debug.Log($"Number of players in room: {PhotonNetwork.PlayerList.Length}");
-        // StartGame();
+        StartGame();
     }
 
     ///<summary>
