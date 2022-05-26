@@ -7,14 +7,20 @@ using UnityEngine.AI;
 public class PlayerScript : MonoBehaviour
 {
     PhotonView view;
+    [SerializeField] private GameObject myCamera;
     private Rigidbody _rb;
     public float jumpForce = 5f;
 
     void Awake()
     {
+        
         view = GetComponent<PhotonView>();
-        Debug.Log("PlayerJoined");
-        _rb = GetComponent<Rigidbody>();
+        if (view.IsMine)
+        {
+            myCamera.SetActive(true);
+
+            _rb = GetComponent<Rigidbody>();
+        }
     }
 
     void Update()
