@@ -18,6 +18,11 @@ public class Health : MonoBehaviour
         CurrentHitPoint = MaxHitPoint;
     }
 
+    [PunRPC] public void ReduceHealth(float damage)
+    {
+        ApplyDamage(damage);
+    }
+
     public void ApplyDamage(float amount)
     {
         if (isDead) { return; }
@@ -25,9 +30,15 @@ public class Health : MonoBehaviour
         UpdatePointsBars();
     }
 
+    private void LateUpdate()
+    {
+        UpdatePointsBars();
+    }
     private void UpdatePointsBars()
     {
+        
+
         _hitRatio = CurrentHitPoint / MaxHitPoint;
-        CurrentHitPointImage.rectTransform.localScale = new Vector3(_hitRatio, 1, 1);
+        CurrentHitPointImage.rectTransform.localScale = new Vector3(_hitRatio * 2, 1, 1);
     }
 }

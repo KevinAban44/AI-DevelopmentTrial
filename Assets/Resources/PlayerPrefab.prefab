@@ -348,7 +348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8208287105671352738}
   m_LocalRotation: {x: 0.44619772, y: 0, z: 0, w: 0.89493436}
-  m_LocalPosition: {x: 0, y: 5, z: -2.21}
+  m_LocalPosition: {x: 0, y: 9.56, z: -6.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1443212058133082727}
@@ -404,13 +404,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1443212058133082727}
     m_Modifications:
+    - target: {fileID: 665531071139529175, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 8512407437221271449}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457022042558251953, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3481156504318298948, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
       propertyPath: m_Name
       value: PointBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5752659707337695415, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942499577501502633, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
       propertyPath: m_PresetInfoIsWorld

@@ -7,7 +7,7 @@ public class BulletScript : MonoBehaviourPun
 {
     public GameObject parent;
     // Start is called before the first frame update
-
+    float Damage = 20;
     private void Start()
     {
        // StartCoroutine(destroyBullet());
@@ -30,8 +30,12 @@ public class BulletScript : MonoBehaviourPun
 
         PhotonView target = other.gameObject.GetComponent<PhotonView>();
 
-        if(target != null && (target.IsMine || target.IsRoomView) && other.gameObject != parent)
+        if (target != null && (target.IsMine || target.IsRoomView) && other.gameObject != parent && other.gameObject.tag != "Bullet")
         {
+            if(other.tag == "Player")
+            {
+                target.RPC("ReduceHealth", RpcTarget.AllBuffered, Damage);
+            }
            // Debug.Log(other.name);
             GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
            
