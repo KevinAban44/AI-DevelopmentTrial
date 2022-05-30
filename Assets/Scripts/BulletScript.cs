@@ -16,7 +16,7 @@ public class BulletScript : MonoBehaviourPun
     public void setParent(GameObject Parent)
     {
         parent = Parent;
-        Debug.Log(parent.name);
+        // Debug.Log(parent.name);
     }
     IEnumerator destroyBullet()
     {

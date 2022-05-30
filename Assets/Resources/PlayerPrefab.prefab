@@ -323,6 +323,9 @@ MonoBehaviour:
   MaxHitPoint: 100
   CurrentHitPoint: 0
   CurrentHitPointImage: {fileID: 5734407995379226488}
+  _isDeadEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8208287105671352738
 GameObject:
   m_ObjectHideFlags: 0

@@ -123,7 +123,7 @@ public class AIBehavior1 : MonoBehaviour
         if (!photonView.IsMine)
             return;
         GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, bulletStartPoint.transform.position, Quaternion.identity);
-        Debug.Log("BulletSpawned");
+        // Debug.Log("BulletSpawned");
         bullet.GetComponent<BulletScript>().setParent(gameObject);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 

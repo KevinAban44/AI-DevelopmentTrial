@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Initialize()
     {
-        PhotonNetwork.Instantiate(playerPrefab.name, spawnPositions[0].transform.position, Quaternion.identity);
+        var _player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPositions[0].transform.position, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient)
         {
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -36,5 +36,18 @@ public class GameManager : MonoBehaviourPunCallbacks
                 playerCount++;
             }
         }
+
+        //If player is dead
+        _player.GetComponent<Health>()._isDeadEvent.AddListener(() =>
+        {
+            Respawn(_player);
+        });
+    }
+
+    public void Respawn(GameObject _player)
+    {
+        var _spawnPoint =  spawnPositions[0].transform;
+        _player.GetPhotonView().RPC("PunRespawn", RpcTarget.All,
+            _spawnPoint.position.x, _spawnPoint.position.y, _spawnPoint.position.z);
     }
 }
