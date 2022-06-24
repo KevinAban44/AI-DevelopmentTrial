@@ -23,7 +23,7 @@ public class SampleMob : Mob
         {
             canAttack = false;
             Shoot();
-            StartCoroutine(resetAttack(1f));
+            StartCoroutine(resetAttack(2f));
         }
     }
     private void Shoot()
@@ -33,6 +33,7 @@ public class SampleMob : Mob
         GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, bulletStartPoint.transform.position, Quaternion.identity);
         // Debug.Log("BulletSpawned");
         bullet.GetComponent<BulletScript>().setParent(gameObject);
+        bullet.GetComponent<BulletScript>().EnemyTag = target.tag;
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
         rb.AddForce(bulletStartPoint.transform.forward * bulletSpeed, ForceMode.Impulse);

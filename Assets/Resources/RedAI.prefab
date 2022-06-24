@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 1534686443994521021}
   - component: {fileID: 7597935254416464576}
   - component: {fileID: 6031982313798857387}
+  - component: {fileID: 3790483852669514247}
   m_Layer: 7
   m_Name: RedAI
   m_TagString: RedTeam
@@ -318,7 +319,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5146446000500616083}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc060a42f5952ff40b38926c397507e7, type: 3}
   m_Name: 
@@ -344,6 +345,43 @@ MonoBehaviour:
   attackRange: 6
   nearestPlayerIndex: 0
   rotationSpeed: 10
+--- !u!114 &3790483852669514247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146446000500616083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51738ff01b1d02445b048e4d2100c9af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _agent: {fileID: 5146446000500616092}
+  target: {fileID: 0}
+  SpawnPoints: []
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  targets: []
+  teamIndex: 1
+  canPatrol: 0
+  canFollowPath: 1
+  canChase: 0
+  canAttack: 1
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 0
+  attackCooldown: 10
+  _sightRange: 8
+  _attackRange: 6
+  nearestPlayerIndex: 0
+  rotationSpeed: 40
+  bulletPrefab: {fileID: 4972094408543665436, guid: 970a18544816a1448be6142ce5f43bd5, type: 3}
+  bulletStartPoint: {fileID: 7080772367202646434}
+  bulletSpeed: 10
 --- !u!1 &7080772367202646434
 GameObject:
   m_ObjectHideFlags: 0

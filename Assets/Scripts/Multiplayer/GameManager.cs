@@ -50,13 +50,28 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             for(int i = 0; i < minionCount; i++)
             {
-                Debug.Log("Added bot");
+                //Spawn Minion on blue team
                 var _blueMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[0].name, spawnPositions[0].transform.position, Quaternion.identity);
-                _blueMinion.GetComponent<Mob>().teamIndex = 0;
-                _blueMinion.GetComponent<Mob>().SpawnPoints = spawnPositions;
-                var _redMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[1].name, spawnPositions[1].transform.position, Quaternion.identity);
-                _redMinion.GetComponent<AIBehavior1>().teamIndex = 1;
-                _redMinion.GetComponent<AIBehavior1>().SpawnPoints = spawnPositions;
+                Mob _blueMinionScript = _blueMinion.GetComponent<Mob>();
+                _blueMinionScript.teamIndex = 0;
+                _blueMinionScript.SpawnPoints = spawnPositions;
+                _blueMinion.tag = "BlueTeam";
+                int layerIndex = LayerMask.NameToLayer("BlueTeam");
+                _blueMinion.layer = layerIndex;
+                LayerMask enemy = LayerMask.GetMask("RedTeam");
+                _blueMinionScript.whatIsEnemy = enemy;
+
+                //Spawn Minion on red team
+                var _redMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[0].name, spawnPositions[1].transform.position, Quaternion.identity);
+                Mob _redMinionScript = _redMinion.GetComponent<Mob>();
+                _redMinionScript.teamIndex = 1;
+                _redMinionScript.SpawnPoints = spawnPositions;
+                _redMinion.tag = "RedTeam";
+                int layerIndex2 = LayerMask.NameToLayer("RedTeam");
+                _redMinion.layer = layerIndex2;
+                enemy = LayerMask.GetMask("BlueTeam");
+                _redMinionScript.whatIsEnemy = enemy;
+
                 yield return new WaitForSeconds(1f);
             }
             yield return new WaitForSeconds(30f);

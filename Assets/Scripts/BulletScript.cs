@@ -6,17 +6,18 @@ using Photon.Pun;
 public class BulletScript : MonoBehaviourPun
 {
     public GameObject parent;
+    public string EnemyTag = "Player";
     // Start is called before the first frame update
     float Damage = 20;
     private void Start()
     {
-       // StartCoroutine(destroyBullet());
+       //StartCoroutine(destroyBullet());
     }
 
     public void setParent(GameObject Parent)
     {
         parent = Parent;
-        // Debug.Log(parent.name);
+        //Debug.Log(parent.name);
     }
     IEnumerator destroyBullet()
     {
@@ -28,16 +29,17 @@ public class BulletScript : MonoBehaviourPun
         if (!photonView.IsMine)
             return;
 
-        PhotonView target = other.gameObject.GetComponent<PhotonView>();
+        PhotonView targetPV = other.gameObject.GetComponent<PhotonView>();
 
-        if (target != null && (target.IsMine || target.IsRoomView) && other.gameObject != parent && other.gameObject.tag != "Bullet")
+        if (targetPV != null && (targetPV.IsMine || targetPV.IsRoomView) && other.gameObject != parent && other.gameObject.tag != "Bullet")
         {
-            if(other.tag == "Player")
+            if(other.tag == EnemyTag)
             {
-                target.RPC("ReduceHealth", RpcTarget.AllBuffered, Damage);
+                Debug.Log(other.tag);
+                GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
+                //target.RPC("ReduceHealth", RpcTarget.AllBuffered, Damage);
             }
-           // Debug.Log(other.name);
-            GetComponent<PhotonView>().RPC("DestroyBullet", RpcTarget.AllBuffered);
+            //Debug.Log(other.name);
            
         }
     }
@@ -45,6 +47,6 @@ public class BulletScript : MonoBehaviourPun
     [PunRPC]
     public void DestroyBullet()
     {
-       //Destroy(gameObject);
+       Destroy(gameObject);
     }
 }
