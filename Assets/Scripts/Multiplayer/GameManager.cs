@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
     public GameObject [] spawnPositions;
-    public GameObject aiPrefab;
+    public GameObject[] aiPrefab;
     public byte maxPlayer = 3;
+    public int minionCount = 2;
+    
+
+    private bool isGameOngoing = true;
 
     IEnumerator Start()
     {
@@ -29,12 +33,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
             Debug.Log($"Number of players in game {playerCount}");
 
-            while(playerCount < maxPlayer)
-            {
-                Debug.Log("Added bot");
-                PhotonNetwork.InstantiateRoomObject(aiPrefab.name, spawnPositions[1].transform.position, Quaternion.identity);
-                playerCount++;
-            }
+            StartCoroutine(spawnCycle());
         }
 
         //If player is dead
@@ -42,6 +41,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Respawn(_player);
         });
+    }
+
+    IEnumerator spawnCycle()
+    {
+        
+        while (isGameOngoing)
+        {
+            for(int i = 0; i < minionCount; i++)
+            {
+                Debug.Log("Added bot");
+                var _blueMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[0].name, spawnPositions[0].transform.position, Quaternion.identity);
+                _blueMinion.GetComponent<AIBehavior1>().teamIndex = 0;
+                _blueMinion.GetComponent<AIBehavior1>().SpawnPoints = spawnPositions;
+                var _redMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[1].name, spawnPositions[1].transform.position, Quaternion.identity);
+                _redMinion.GetComponent<AIBehavior1>().teamIndex = 1;
+                _redMinion.GetComponent<AIBehavior1>().SpawnPoints = spawnPositions;
+                yield return new WaitForSeconds(1f);
+            }
+            yield return new WaitForSeconds(30f);
+        }
     }
 
     public void Respawn(GameObject _player)

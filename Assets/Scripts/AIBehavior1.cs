@@ -8,9 +8,11 @@ public class AIBehavior1 : MonoBehaviour
 {
     public NavMeshAgent agent;
     [SerializeField] public Transform target;
-    public LayerMask whatIsGround, whatIsPlayer;
+    [SerializeField] public GameObject[] SpawnPoints;
+    public LayerMask whatIsGround, whatIsEnemy;
     public GameObject[] targets;
     private PhotonView photonView;
+    public int teamIndex = 0;
     
 
     //Patroling
@@ -37,8 +39,7 @@ public class AIBehavior1 : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        targets = GameObject.FindGameObjectsWithTag("Player");
-        target = targets[0].transform;
+       
         agent = GetComponent<NavMeshAgent>();
         photonView = GetComponent<PhotonView>();
     }
@@ -46,7 +47,12 @@ public class AIBehavior1 : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (teamIndex == 0)
+            targets = GameObject.FindGameObjectsWithTag("RedTeam");
+        else
+            targets = GameObject.FindGameObjectsWithTag("BlueTeam");
 
+        target = targets[0].transform;
         nearestPlayerIndex = 0;
 
         for (int i = 0; i < targets.Length; i++)
@@ -58,14 +64,22 @@ public class AIBehavior1 : MonoBehaviour
             }
         }
 
-        isEnemyInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        isEnemyInRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        isEnemyInSight = Physics.CheckSphere(transform.position, sightRange, whatIsEnemy);
+        isEnemyInRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
 
-        if (!isEnemyInSight && !isEnemyInRange) Patrolling();
-        if (isEnemyInSight && !isEnemyInRange) Chase();
+       // if (!isEnemyInSight && !isEnemyInRange) Patrolling();
+        if (!isEnemyInSight && !isEnemyInRange) Pathing();
+       // if (isEnemyInSight && !isEnemyInRange) Chase();
         if (isEnemyInSight && isEnemyInRange) Attack();
     }
 
+    private void Pathing()
+    {
+        if(teamIndex == 0)
+            agent.SetDestination(SpawnPoints[1].transform.position);
+        else
+            agent.SetDestination(SpawnPoints[0].transform.position);
+    }
     private void SetWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -96,6 +110,7 @@ public class AIBehavior1 : MonoBehaviour
     }
     private void Attack()
     {
+        target = targets[nearestPlayerIndex].transform;
         agent.SetDestination(transform.position);
 
         Vector3 direction = (target.position - transform.position).normalized;

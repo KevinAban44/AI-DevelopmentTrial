@@ -45,6 +45,6 @@ public class BulletScript : MonoBehaviourPun
     [PunRPC]
     public void DestroyBullet()
     {
-       Destroy(gameObject);
+       //Destroy(gameObject);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5146445999277078682}
   - component: {fileID: 5146445999277078681}
   - component: {fileID: 5146445999277078680}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,9 +101,9 @@ GameObject:
   - component: {fileID: 1534686443994521021}
   - component: {fileID: 7597935254416464576}
   - component: {fileID: 6031982313798857387}
-  m_Layer: 0
-  m_Name: AIPrefab
-  m_TagString: Untagged
+  m_Layer: 7
+  m_Name: RedAI
+  m_TagString: RedTeam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,14 +324,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 5146446000500616092}
-  target: {fileID: 1443212058133082727, guid: b804535ac0ed9b149a5e30a9ff17d7d8, type: 3}
+  target: {fileID: 0}
+  SpawnPoints: []
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  whatIsPlayer:
+  whatIsEnemy:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 256
   targets: []
+  teamIndex: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   attackCooldown: 0
@@ -351,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4377180623641266222}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: bulletSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,6 +388,14 @@ PrefabInstance:
     - target: {fileID: 3481156504318298948, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
       propertyPath: m_Name
       value: PointBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481156504318298948, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5981702149483784075, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8800648515292923911, guid: c88afa086552b324aa028ccf96ad7bb4, type: 3}
       propertyPath: m_Pivot.x
