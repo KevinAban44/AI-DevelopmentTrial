@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 Debug.Log("Added bot");
                 var _blueMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[0].name, spawnPositions[0].transform.position, Quaternion.identity);
-                _blueMinion.GetComponent<AIBehavior1>().teamIndex = 0;
-                _blueMinion.GetComponent<AIBehavior1>().SpawnPoints = spawnPositions;
+                _blueMinion.GetComponent<Mob>().teamIndex = 0;
+                _blueMinion.GetComponent<Mob>().SpawnPoints = spawnPositions;
                 var _redMinion = PhotonNetwork.InstantiateRoomObject(aiPrefab[1].name, spawnPositions[1].transform.position, Quaternion.identity);
                 _redMinion.GetComponent<AIBehavior1>().teamIndex = 1;
                 _redMinion.GetComponent<AIBehavior1>().SpawnPoints = spawnPositions;
